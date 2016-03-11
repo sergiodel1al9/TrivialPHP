@@ -16,10 +16,32 @@ class Pregunta {
 
     private $texto;
     private $respuestas = array();
+    private $multiRespuesta = false;
 
     function __construct($texto, $respuestas) {
         $this->texto = $texto;
         $this->respuestas = $respuestas;
+
+
+        // Creamos un contador
+        $contador = 0;
+
+        // Iteramos por todas las respuestas
+        foreach ($respuestas as $respuesta) {
+
+            // Comprobamos si las respuesta es correcta
+            if ($respuesta->getCorrecta() === TRUE) {
+                // Si lo es, aumentamos el contador
+                $contador++;
+            }
+        }
+
+        // Comprobamos si el contador es mayor de uno, lo que 
+        // implica que habrá más de una respuesta correcta
+        if ($contador > 1) {
+            // Si es el caso, cambiamos la variable multiRespuesta a TRUE
+            $this->multiRespuesta = TRUE;
+        }
     }
 
     public function getTexto() {
@@ -36,6 +58,10 @@ class Pregunta {
 
     public function setRespuestas($respuestas) {
         $this->respuestas = $respuestas;
+    }
+
+    public function getMultiRespuesta() {
+        return $this->multiRespuesta;
     }
 
 }
